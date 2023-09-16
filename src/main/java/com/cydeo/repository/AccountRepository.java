@@ -12,6 +12,9 @@ public class AccountRepository {
     public Account save(Account account){
         accountList.add(account);
         return account;
+    }
 
+    public List<Account> findAll() {
+        return accountList;
     }
 }
