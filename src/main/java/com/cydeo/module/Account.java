@@ -1,5 +1,6 @@
 package com.cydeo.module;
 
+import com.cydeo.enums.AccountStatus;
 import com.cydeo.enums.AccountType;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +11,12 @@ import java.util.UUID;
 @Data
 @Builder
 public class Account {
+
     private UUID id;
     private BigDecimal balance;
     private AccountType accountType;
     private Date creationDate;
     private Long userId;
+    private AccountStatus accountStatus;
+
 }
