@@ -8,14 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Controller
 public class AccountController {
 
     /*
-        write a method to return index.html including account list information
-        endpoint:index
-     */
+          write a method to return index.html including account list information
+          endpoint:index
+       */
     private final AccountService accountService;
 
     public AccountController(AccountService accountService) {
@@ -29,12 +30,12 @@ public class AccountController {
         return "account/index";
     }
 
-
     @GetMapping("/create-form")
-    public String createForm(Model model) {
-        //need an empty account object to hold data
+    public String getCreateForm(Model model){
+
+        //we need to provide empty account object
         model.addAttribute("account", Account.builder().build());
-        //need to provide accountType enum values to the view page
+        //we need to provide accountType enum info for filling the dropdown options
         model.addAttribute("accountTypes", AccountType.values());
 
         return "account/create-account";
@@ -51,6 +52,21 @@ public class AccountController {
         return "redirect:/index";
     }
 
+    @GetMapping("/delete/{id}")
+    public String getDeleteAccount(@PathVariable("id")UUID id){
+
+        accountService.deleteAccount(id);
+
+        return "redirect:/index";
+    }
+
+    @GetMapping("/activate/{id}")
+    public String activateAccount(@PathVariable("id") UUID id){
+
+        accountService.activateAccount(id);
+
+        return "redirect:/index";
+    }
 
 
 }
