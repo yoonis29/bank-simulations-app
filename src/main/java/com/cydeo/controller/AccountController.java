@@ -5,8 +5,10 @@ import com.cydeo.module.Account;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.UUID;
 
@@ -46,11 +48,17 @@ public class AccountController {
     //trigger createNewAccount method, create the account based on the user input.
     //once user created return back to the index page.
     @PostMapping("/create")
-    public String createAccount(@ModelAttribute("account") Account account){
+    public String createAccount(@Valid @ModelAttribute("account") Account account, BindingResult bindingResult, Model model){
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("accountTypes", AccountType.values());
+            return "account/create-account";
+        }
         System.out.println(account);
         accountService.createNewAccount(account.getBalance(),new Date(),account.getAccountType(),account.getUserId());
         return "redirect:/index";
     }
+
 
     @GetMapping("/delete/{id}")
     public String getDeleteAccount(@PathVariable("id")UUID id){
